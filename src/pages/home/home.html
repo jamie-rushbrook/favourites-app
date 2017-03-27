@@ -5,13 +5,35 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+  <!--<ion-searchbar [ngModel)]="myTitle" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)"></ion-searchbar>-->
+  <ion-searchbar [(ngModel)]="myTitle" [showCancelButton]="true" (search)="setTitle($event)" placeholder="Search by Title"></ion-searchbar>
+  <ion-item>
+    <ion-label>Select Year</ion-label>
+    <ion-datetime pickerFormat="YYYY" [(ngModel)]="chosenYear" (ionChange)="setYear($event)"></ion-datetime>
+  </ion-item>
+  <ion-list>
+    <ion-card *ngFor="let item of items; let i = index" class="movie-item">
+      <img  *ngIf="item.Poster !== 'N/A'" src="{{item.Poster}}" (click)="viewMovie(item)">
+      <ion-card-content (click)="viewMovie(item)">
+        <ion-card-title>
+          {{item.Title}}
+        </ion-card-title>
+      </ion-card-content>
+      <!--<h2 color="danger" >{{item.title.rendered}}</h2>-->
+      <!--<p [innerHTML]="item.excerpt.rendered"></p>-->
+      <!--<button ion-button clear item-right (click)="itemTapped($event, item)">View</button>-->
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-left color="danger" clear (click)="addToFavorites(item)">
+            <ion-icon name="{{item.favorited ? 'star' : 'star-outline'}}" >{{item.favorited ? 'Remove' : 'Favorite'}}</ion-icon>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-left color="danger" clear (click)="clearFavorites()">
+            <ion-icon>Clear</ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </ion-list>
 </ion-content>
