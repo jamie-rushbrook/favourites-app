@@ -1,11 +1,82 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      About
+      Games
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-
+  <ion-item>
+    <ion-label>Year</ion-label>
+    <ion-select [(ngModel)]="year" (ngModelChange)="changeYear($event)">
+      <ion-option value="2017">2017</ion-option>
+      <ion-option value="2018">2018</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Platform</ion-label>
+    <ion-select [(ngModel)]="platform" (ngModelChange)="changePlatforms($event)">
+      <ion-option value="PS4">PS4</ion-option>
+      <ion-option value="XONE">XONE</ion-option>
+      <ion-option value="NSW">NSW</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Releases</ion-label>
+    <ion-select [(ngModel)]="release" (ngModelChange)="changeReleasedGames($event)">
+      <ion-option value="upcoming">Upcoming Games</ion-option>
+      <ion-option value="released">Released Games</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Exclusive</ion-label>
+    <ion-checkbox [(ngModel)]="exclusive" (ngModelChange)="isExclusive($event)"></ion-checkbox>
+  </ion-item>
+  <button ion-button (click)="resetGameData()">Cool fam</button>
+  <ion-list>
+    <ion-item *ngFor="let item of items; let i = index" (click)="viewGame(item)">
+      <ion-row>
+        <ion-col>
+          <p>{{item.name}}</p>
+          <p>{{item.release_date | date }}</p>
+          <p>{{item.expected_date}}</p>
+        </ion-col>
+        <ion-col>
+          <button class="favourite" ion-button icon-only (click)="addToFavorites(item)">
+            <ion-icon name="{{item.favorited ? 'star' : 'star-outline'}}"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+      <!--<img  *ngIf="item.Poster !== 'N/A'" src="{{item.Poster}}" (click)="viewMovie(item)">-->
+      <!--<ion-card-content (click)="viewMovie(item)">-->
+        <!--<ion-card-title>-->
+          <!--{{item.Title}}-->
+        <!--</ion-card-title>-->
+      <!--</ion-card-content>-->
+      <!--&lt;!&ndash;<h2 color="danger" >{{item.title.rendered}}</h2>&ndash;&gt;-->
+      <!--&lt;!&ndash;<p [innerHTML]="item.excerpt.rendered"></p>&ndash;&gt;-->
+      <!--&lt;!&ndash;<button ion-button clear item-right (click)="itemTapped($event, item)">View</button>&ndash;&gt;-->
+      <!--<ion-row>-->
+        <!--<ion-col>-->
+          <!--<button ion-button icon-left color="danger" clear (click)="addToFavorites(item)">-->
+            <!--<ion-icon name="{{item.favorited ? 'star' : 'star-outline'}}" >{{item.favorited ? 'Remove' : 'Favorite'}}</ion-icon>-->
+          <!--</button>-->
+        <!--</ion-col>-->
+        <!--<ion-col>-->
+          <!--<button ion-button icon-left color="danger" clear (click)="clearFavorites()">-->
+            <!--<ion-icon>Clear</ion-icon>-->
+          <!--</button>-->
+        <!--</ion-col>-->
+      <!--</ion-row>-->
+    </ion-item>
+  </ion-list>
+  <ion-row>
+    <ion-col>
+      <button *ngIf="pagination > 0" ion-button (click)="getPrevGames()">Prev Page</button>
+    </ion-col>
+    <ion-col>
+      <button *ngIf="offset < totalResults" ion-button (click)="getNextGames()">Next Page</button>
+    </ion-col>
+  </ion-row>
 </ion-content>

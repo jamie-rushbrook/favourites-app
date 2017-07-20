@@ -26,58 +26,69 @@ export class FavoriteService {
       });
     })
 
+
   }
 
   add(item){
-    this.storage.get('allFavorites').then((val) => {
-      if(!val){
-        this.storage.set('allFavorites', []).then(() => {
-          this.existingEntries = [];
+    return new Promise (resolve => {
+      this.storage.get('allFavorites').then((val) => {
+        // if(!val){
+        //   this.storage.set('allFavorites', [
+        //   ]).then(
+        //     () => {
+        //     this.existingEntries = [];
+        //     console.log('original favorites', this.existingEntries);
+        //     this.existingEntries.push(item);
+        //     this.storage.set('allFavorites', this.existingEntries).then(
+        //       () => {
+        //       this.storage.get('allFavorites').then(
+        //         (name) => {
+        //           console.log("all favorites in storage", name);
+        //           console.log("new favorites", this.existingEntries);
+        //           resolve();
+        //         });
+        //       }
+        //     );
+        //   });
+        // }
+        // else {
+          console.log('val', val);
+          this.existingEntries = val;
           console.log('original favorites', this.existingEntries);
           this.existingEntries.push(item);
-          this.storage.set('allFavorites', this.existingEntries).then(() => {
+          this.storage.set('allFavorites', this.existingEntries).then(
+            () => {
               this.storage.get('allFavorites').then((name) => {
                 console.log("all favorites in storage", name);
                 console.log("new favorites", this.existingEntries);
+                resolve();
               });
             }
           );
-        });
-      }
-      else {
-        console.log('val', val);
-        this.existingEntries = val;
-        console.log('original favorites', this.existingEntries);
-        this.existingEntries.push(item);
-        this.storage.set('allFavorites', this.existingEntries).then(() => {
-            this.storage.get('allFavorites').then((name) => {
-              console.log("all favorites in storage", name);
-              console.log("new favorites", this.existingEntries);
-
-            });
-          }
-        );
-      }
-
-
+        // }
+      });
     });
   }
 
   clear(){
-    this.storage.clear();
+    this.storage.clear().then(() => {
+      this.storage.set('allFavorites', []);
+    }
+  )
   }
 
   remove(_item){
-  return new Promise(resolve => {
-    this.storage.get('allFavorites').then((val) => {
-      val.splice(_item, 1);
-      console.log(val);
-      this.storage.set('allFavorites', val).then(() => {
-        console.log('set');
-        resolve(val);
-      });
-    });
-  })
-
+    return new Promise(resolve => {
+      this.storage.get('allFavorites').then(
+        (val) => {
+          val.splice(_item, 1);
+          console.log(val);
+          this.storage.set('allFavorites', val).then(
+            () => {
+              console.log('set');
+              resolve(val);
+            });
+        });
+    })
   }
 }

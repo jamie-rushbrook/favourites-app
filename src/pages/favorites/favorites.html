@@ -18,7 +18,7 @@
 <ion-item-sliding *ngFor="let item of items; let i = index" >
   <ion-item class="favorite-item">
     <h2 color="danger" >{{item.Title}}</h2>
-    <h2 color="danger" >Out on: {{item.Released}}</h2>
+    <h2 color="danger" >{{item.out ? 'Already out': 'Out on: ' + item.Released}} </h2>
 
   </ion-item>
   <ion-item-options side="right">

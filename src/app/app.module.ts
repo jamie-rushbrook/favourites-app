@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { FavoritesPage } from '../pages/favorites/favorites';
 import { TabsPage } from '../pages/tabs/tabs';
 import { DetailsPage } from '../pages/details/details';
+import {GamedetailsPage} from "../pages/gamedetails/gamedetails";
 import { Api } from '../providers/api';
 import { FavoriteService } from '../providers/favorite-service';
 import { IonicStorageModule } from '@ionic/storage';
@@ -23,7 +24,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
     ContactPage,
     HomePage,
     TabsPage,
-    DetailsPage
+    DetailsPage,
+    GamedetailsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -37,7 +39,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
     ContactPage,
     HomePage,
     TabsPage,
-    DetailsPage
+    DetailsPage,
+    GamedetailsPage
   ],
   providers: [
     StatusBar,

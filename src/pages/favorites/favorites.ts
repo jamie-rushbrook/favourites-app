@@ -23,7 +23,7 @@ export class FavoritesPage {
 
   presentToast(){
     let toast = this.toastCtrl.create({
-      message: 'Add some favorites!',
+      message: 'Add some favorites fam!',
       duration: 3000,
       position: 'middle'
     });
@@ -32,22 +32,31 @@ export class FavoritesPage {
 
   removeFavorite(item){
     this.favorites.remove(item).then((val) => {
-      this.items = val;
+      this.favorites.get().then((val) => {
+        console.log('removed favorites', val);
+        this.resetList();
+      })
+      //this.items = val;
     });
   }
 
   resetList(){
     this.favorites.get()
       .then((data) => {
-       // console.log(data);
-        if(data.length <= 0)
+
+        console.log(data);
+
+        if(data.length <= 0 || !data)
           this.presentToast();
         this.items = data.sort(function(a, b){
           a = new Date(a.Released);
           b = new Date(b.Released);
+          console.log(a, b);
           return a>b ? 1 : 0;
         })
-
+        this.items.map(obj =>{
+          if(new Date(obj.Released)< new Date()){obj.out = true}
+        })
       });
   }
 }
